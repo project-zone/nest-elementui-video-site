@@ -1,2 +1,6 @@
 # nest-elementui-video-site
-nest + elementUI 全栈项目
+### Using nest and elementUI to develop full stack.
+
+Handbooks are:
+[nest.js](https://docs.nestjs.com/)
+[element ui](https://element.eleme.cn/#/zh-CN/component/installation)
