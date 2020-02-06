@@ -16,7 +16,6 @@
     ],
     "paths": {
       "@/*": [
-        "src/*",
         "node_modules/*",
         "./types/*"
       ]
