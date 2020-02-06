@@ -16,7 +16,9 @@
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "src/*",
+        "node_modules/*",
+        "./types/*"
       ]
     },
     "lib": [
