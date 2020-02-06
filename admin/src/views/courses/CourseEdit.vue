@@ -48,6 +48,7 @@ export default class CourseEdit extends Vue {
     const method = this.isNew ? 'post' : 'put'
 
     await this.$http[method](url, data);
+    this.$message.success({ message: '保存成功！' })
     this.data = {}
     this.$router.go(-1)
   }
