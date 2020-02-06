@@ -1,6 +1,7 @@
 <template>
   <div class="course-list">
     <avue-crud
+      v-if="option.column"
       :data="data.data"
       :option="option"
       @row-save="createCourse"
@@ -11,34 +12,37 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component({
-  name: 'CourseCrud',
+  name: 'ResourceCrud',
 })
-export default class CourseCrud extends Vue {
+export default class ResourceCrud extends Vue {
+  @Prop(String) resource!: string
+
   data = [];
 
-  option = {
-    title: '课程管理',
-    column: [
-      { prop: 'name', label: '课程名称' },
-      { prop: 'cover', label: '课程封面图' },
-    ],
-  };
+  option = {};
 
   async fetch() {
-    const { data } = await this.$http.get('courses');
+    const { data } = await this.$http.get(`${this.resource}`);
 
     this.data = data;
   }
 
+  async fetchOption() {
+    const { data } = await this.$http.get(`${this.resource}/option`)
+
+    this.option = data
+  }
+
   created() {
     this.fetch();
+    this.fetchOption()
   }
 
   async createCourse(row: any, done: any, loading: any) {
-    await this.$http.post('courses', row);
+    await this.$http.post(`${this.resource}`, row);
 
     this.$message.success('保存成功！');
     this.fetch();
@@ -50,15 +54,16 @@ export default class CourseCrud extends Vue {
 
     delete data.$index;
 
-    await this.$http.delete(`courses/${data._id}`, data);
+    await this.$http.put(`${this.resource}/${data._id}`, data);
     this.$message.success('修改成功！');
+    this.fetch()
     done()
   }
 
   async removeCourse(row: any, index: any) {
     try {
       await this.$confirm('是否删除课程？');
-      await this.$http.delete(`courses/${row._id}`);
+      await this.$http.delete(`${this.resource}/${row._id}`);
       this.$message.success({ message: '删除成功！' });
       this.fetch();
     } catch (error) {
