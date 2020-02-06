@@ -4,9 +4,11 @@
       v-if="option.column"
       :data="data.data"
       :option="option"
+      :page="page"
       @row-save="createCourse"
       @row-update="updateCourse"
       @row-del="removeCourse"
+      @on-load="changePage"
     ></avue-crud>
   </div>
 </template>
@@ -24,10 +26,27 @@ export default class ResourceCrud extends Vue {
 
   option = {};
 
-  async fetch() {
-    const { data } = await this.$http.get(`${this.resource}`);
+  page: any = {
+    total: 10,
+    pageSize: 2,
+    currentPage: 1,
+    pageSizes: [2, 5, 10, 20],
+  }
 
-    this.data = data;
+  query: any = {
+    limit: 2,
+  }
+
+  async fetch() {
+    const { data } = await this.$http.get(`${this.resource}`, {
+      params: {
+        query: this.query
+      }
+    });
+
+    this.page.total = data.total
+    this.page.currentPage = data.page
+    this.data = data
   }
 
   async fetchOption() {
@@ -63,12 +82,20 @@ export default class ResourceCrud extends Vue {
   async removeCourse(row: any, index: any) {
     try {
       await this.$confirm('是否删除课程？');
-      await this.$http.delete(`${this.resource}/${row._id}`);
-      this.$message.success({ message: '删除成功！' });
+      await this.$http.delete(`${this.resource}/${row._id}`)
+      this.$message.success({ message: '删除成功！' })
+      this.query.page = 1
       this.fetch();
     } catch (error) {
       return;
     }
+  }
+
+  async changePage({pageSize, currentPage}) {
+    this.query.page = currentPage
+    this.query.limit = pageSize
+
+    this.fetch()
   }
 }
 </script>
