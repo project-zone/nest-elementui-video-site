@@ -30,9 +30,7 @@ export default class ResourceCrud extends Vue {
 
   page: any = {
     total: 10,
-    pageSize: 2,
     currentPage: 1,
-    pageSizes: [2, 5, 10, 20],
   }
 
   query: any = {
@@ -93,14 +91,14 @@ export default class ResourceCrud extends Vue {
     }
   }
 
-  async changePage({pageSize, currentPage}) {
+  async changePage({pageSize, currentPage}: any) {
     this.query.page = currentPage
     this.query.limit = pageSize
 
     this.fetch()
   }
 
-  async changeSort({prop, order}) {
+  async changeSort({prop, order}: any) {
     if (!order) {
       this.query.sort = null
     } else {
@@ -112,11 +110,11 @@ export default class ResourceCrud extends Vue {
     this.fetch()
   }
 
-  async search(where, done) {
-    const params = {}
+  async search(where: any, done: any) {
+    const params: any = {}
 
     for (const key in where) {
-      const field = this.option.column.find(item => item.prop === key)
+      const field = this.option.column.find((item: any) => item.prop === key)
 
       if (field) {
         params[key] = field.regex ? { $regex: where[key] } : where[key]

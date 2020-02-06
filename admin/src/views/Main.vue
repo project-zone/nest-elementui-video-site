@@ -68,3 +68,9 @@ export default class Main extends Vue {
   };
 }
 </script>
+
+<style>
+.avue-upload__avatar {
+  height: auto;
+}
+</style>
