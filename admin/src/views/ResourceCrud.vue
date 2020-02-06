@@ -10,6 +10,7 @@
       @row-del="removeCourse"
       @on-load="changePage"
       @sort-change="changeSort"
+      @search-change="search"
     ></avue-crud>
   </div>
 </template>
@@ -25,7 +26,7 @@ export default class ResourceCrud extends Vue {
 
   data = [];
 
-  option = {};
+  option: any = {};
 
   page: any = {
     total: 10,
@@ -109,6 +110,23 @@ export default class ResourceCrud extends Vue {
     }
 
     this.fetch()
+  }
+
+  async search(where, done) {
+    const params = {}
+
+    for (const key in where) {
+      const field = this.option.column.find(item => item.prop === key)
+
+      if (field) {
+        params[key] = field.regex ? { $regex: where[key] } : where[key]
+      }
+    }
+
+    this.query.where = params
+
+    await this.fetch()
+    done()
   }
 }
 </script>
