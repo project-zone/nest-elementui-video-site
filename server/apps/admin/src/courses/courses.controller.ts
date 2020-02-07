@@ -22,6 +22,7 @@ export class CoursesController {
         {
           prop: 'name',
           label: '课程名称',
+          span: 24,
           sortable: true,
           search: true,
           regex: true,
