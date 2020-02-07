@@ -2,9 +2,9 @@
   <div class="pa-3">
     <h3>热门课程</h3>
     <v-row>
-      <v-col md="3" v-for="item in courses" :key="item._id">
+      <v-col v-for="item in courses" :key="item._id" md="3">
         <v-card :to="`/courses/${item._id}`" class="mx-auto" max-width="400">
-          <v-img class="white--text align-end" height="200px" :src="item.cover">
+          <v-img :src="item.cover" class="white--text align-end" height="200px">
             <v-card-title>{{ item.name }}</v-card-title>
           </v-img>
 
