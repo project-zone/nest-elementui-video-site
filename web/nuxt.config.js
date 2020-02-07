@@ -1,7 +1,13 @@
 import colors from 'vuetify/es5/util/colors'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default {
   mode: 'universal',
+  server: {
+    port: 3100, // default: 3000
+  },
   /*
    ** Headers of the page
    */
@@ -17,7 +23,13 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Material+Icons'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -82,6 +94,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend (config, ctx) { }
   }
 }
