@@ -7,15 +7,25 @@ import { CoursesModule } from './courses/courses.module';
 import { EpisodesModule } from './episodes/episodes.module';
 import { MulterModule } from '@nestjs/platform-express';
 
+const MAO = require('multer-aliyun-oss');
+
 @Module({
   imports: [
     MulterModule.register({
-      dest: 'uploads'
+      storage: MAO({
+        config: {
+          region: '<region>',
+          accessKeyId: '<accessKeyId>',
+          accessKeySecret: '<accessKeySecret>',
+          bucket: '<bucket>',
+        },
+      }),
+      // dest: 'uploads'
     }),
     DbModule,
     UsersModule,
     CoursesModule,
-    EpisodesModule
+    EpisodesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

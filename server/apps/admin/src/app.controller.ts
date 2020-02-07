@@ -18,8 +18,6 @@ export class AppController {
   @ApiOperation({ summary: '上传文件' })
   @UseInterceptors(FileInterceptor('file'))
   async upload(@UploadedFile('file') file) {
-    return {
-      url: `http://localhost:3000/uploads/${file.filename}`
-    }
+    return file
   }
 }
