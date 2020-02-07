@@ -7,9 +7,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors()
-  app.useStaticAssets('uploads', {
-    prefix: '/uploads'
-  })
+  /*
+    Because of aliyun oss,
+    this static file setting is not necessary.
+  */
+  // app.useStaticAssets('uploads', {
+  //   prefix: '/uploads'
+  // })
 
   const options = new DocumentBuilder()
     .setTitle('后台管理API')
@@ -19,8 +23,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-docs', app, document);
 
-  await app.listen(3000);
+  const PORT = process.env.ADMIN_PORT || 3000
 
-  console.log('http://localhost:3000/api-docs');
+  await app.listen(PORT);
+
+  console.log(`http://localhost:${PORT}/api-docs`);
 }
 bootstrap();
